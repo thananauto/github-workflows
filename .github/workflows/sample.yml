@@ -14,8 +14,10 @@ jobs:
               run: echo `Hello world for ${{ env.name}}`
 
             - name: Add the new file
-              run:  |
-                cat >> text.txt
-                Welcome to new github actions
+              run: | 
+                cat > text.txt << EOF
+                Welcome to github action workflows
+                EOF
+
             - name: Display the output
               run: cat text.txt
