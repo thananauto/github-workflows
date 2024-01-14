@@ -10,6 +10,10 @@ jobs:
             name: John
             age: 12
         steps:
+            - name: Get current date
+              id: date
+              run: echo "current_date=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
+                  
             - name: Display the name
               run: echo `Hello world for ${{ env.name}}`
 
@@ -18,13 +22,15 @@ jobs:
                 cat > text.txt << EOF
                 Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}}
                 EOF
-            - name: Add the new file
-              run: | 
-                cat >> text.txt 
-                Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}} 
-                ^D
-
+           
             - name: Display the output
               run: |
                 cat text.txt 
                 ls -al
+                
+            - name: add file and commit back to git hub
+              uses: EndBug/add-and-commit@v9
+              with:
+                message: 'Add the file on ${{ steps.date.outputs.current_date}}'
+                add: '*.txt --force'
+                default_author: github_actions
