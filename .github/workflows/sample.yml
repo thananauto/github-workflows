@@ -3,6 +3,8 @@ on:
     - push
     - pull_request
 
+permissions:
+    contents: write
 jobs:
     first_job:
         runs-on: ubuntu-latest
@@ -12,7 +14,7 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
-              
+
             - name: Get current date
               id: date
               run: echo "current_date=$(date +'%Y-%m-%d')" >> "$GITHUB_OUTPUT"
@@ -34,6 +36,6 @@ jobs:
             - name: add file and commit back to git hub
               uses: EndBug/add-and-commit@v9
               with:
-                message: 'Add the file on ${{ steps.date.outputs.current_date}}'
-                add: '*.txt --force'
-                default_author: github_actions
+                message: Show GitHub logo
+                committer_name: GitHub Actions
+                committer_email: 41898282+github-actions[bot]@users.noreply.github.com
