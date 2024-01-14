@@ -15,14 +15,20 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
+            - name: Set color
+              id: color-selector
+              run: echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT"
+
             - name: Get current date
               id: date
               run: |
-                echo "SELECTED_COLOR=green" >> "$GITHUB_OUTPUT
-                echo ${{ steps.date.outputs.SELECTED_COLOR }}
+                echo "SELECTED_RED=red" >> "$GITHUB_OUTPUT
+                echo ${{ steps.color-selector.outputs.SELECTED_COLOR }}
                   
             - name: Display the name
-              run: echo `Hello world for ${{ env.name}}`
+              run: |
+                   echo `Hello world for ${{ env.name}}`
+                   echo ${{ steps.date.outputs.SELECTED_RED}}
 
             - name: Add the new file
               run: | 
