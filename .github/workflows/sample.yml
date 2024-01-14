@@ -34,7 +34,7 @@ jobs:
               run: | 
                 cat > text.txt << EOF
                 Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}}
-           
+                $(date +'%Y-%m-%d')
                 EOF
            
             - name: Display the output
