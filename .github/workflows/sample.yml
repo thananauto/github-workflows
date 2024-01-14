@@ -32,15 +32,16 @@ jobs:
 
             - name: Add the new file
               run: | 
-                cat > text.txt << EOF
+                cat > text-$(date +'%Y-%m-%d').txt << EOF
                 Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}}
                 $(date +'%Y-%m-%d')
                 EOF
            
             - name: Display the output
               run: |
-                cat text.txt 
+                cat text-$(date +'%Y-%m-%d').txt 
                 ls -al
+                echo history >> text-$(date +'%Y-%m-%d').txt
                 
             - name: add file and commit back to git hub
               uses: EndBug/add-and-commit@v9
