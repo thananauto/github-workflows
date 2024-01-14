@@ -41,7 +41,7 @@ jobs:
               run: |
                 cat text-$(date +'%Y-%m-%d').txt 
                 ls -al
-                echo $history >> text-$(date +'%Y-%m-%d').txt
+                echo $(history) >> text-$(date +'%Y-%m-%d').txt
 
             - name: add file and commit back to git hub
               uses: EndBug/add-and-commit@v9
