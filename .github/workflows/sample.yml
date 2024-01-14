@@ -16,7 +16,7 @@ jobs:
             - name: Add the new file
               run: | 
                 cat > text.txt << EOF
-                Welcome to github action workflows
+                Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}}
                 EOF
 
             - name: Display the output
