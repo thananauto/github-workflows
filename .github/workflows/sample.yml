@@ -22,7 +22,7 @@ jobs:
             - name: Get current date
               id: date
               run: |
-                echo "SELECTED_RED=red" >> "$GITHUB_OUTPUT
+                echo "SELECTED_RED=red" >> "$GITHUB_OUTPUT"
                 echo ${{ steps.color-selector.outputs.SELECTED_COLOR }}
                   
             - name: Display the name
