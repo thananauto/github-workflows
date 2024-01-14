@@ -18,6 +18,13 @@ jobs:
                 cat > text.txt << EOF
                 Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}}
                 EOF
+            - name: Add the new file
+              run: | 
+                cat >> text.txt /
+                Welcome to github action workflows for ${{ env.name}} and his age: ${{ env.age}} /
+                ^D
 
             - name: Display the output
-              run: cat text.txt
+              run: |
+                cat text.txt 
+                ls -al
