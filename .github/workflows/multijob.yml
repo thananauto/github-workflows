@@ -13,6 +13,9 @@ env:
 jobs:
     build-job:
         runs-on: ubuntu-latest
+        
+        outputs:
+          artifact-id : ${{ steps.artifact-upload.outputs.artifact-id}}
         steps:
             - name: checkout code
               uses: actions/checkout@v4
@@ -27,6 +30,7 @@ jobs:
                 cat  multi/text-${{ env.current_date }}.txt
 
             - name: upload new files
+              id: artifact-upload
               uses: actions/upload-artifact@v4
               with:
                   name: sample-artifact
@@ -54,8 +58,10 @@ jobs:
             
 
     deploy-job:
-        needs: test-job
+        needs: [ test-job, build-job ]
         runs-on: ubuntu-latest
         steps:
             - name: deploy jobs
-              run: echo "Test jobs"
+              run: |
+                echo "Test jobs"
+                echo ${{ needs.build-job.outputs.artifact-id}}
