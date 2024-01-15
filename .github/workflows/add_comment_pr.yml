@@ -1,0 +1,41 @@
+name: Add comment 
+on: 
+    - pull_request
+    - push
+
+permissions: 
+    contents: write
+env:
+    current_date: $(date +'%Y-%m-%d')
+
+jobs:
+    add_comment:
+        runs-on: ubuntu-latest
+        permissions: write-all
+        steps:
+            - name: checkout repo
+              uses: actions/checkout@v4
+
+            - name: Add the new file
+              run: | 
+                mkdir -p multi
+                cat > multi/text-${{ env.current_date }}.txt << EOF
+                Welcome to github action workflows for 
+                $(date +'%Y-%m-%d')
+                EOF
+                cat  multi/text-${{ env.current_date }}.txt
+
+            - name: upload new files
+              id: artifact-upload
+              uses: actions/upload-artifact@v4
+              with:
+                  name: sample-artifact
+                  path: multi/text-*.txt
+
+            - uses: mshick/add-pr-comment@v2
+              if: (contains(fromJSON('["pull_request"]'), github.event_name))
+              with:
+                    message: |
+                        **Howdie!** ${{ steps.artifact-upload.outputs.artifact-url }}
+
+    
