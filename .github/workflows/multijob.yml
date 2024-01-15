@@ -19,6 +19,7 @@ jobs:
             
             - name: Add the new file
               run: | 
+                mkdir multi
                 cat > multi/text-${{ env.current_date }}.txt << EOF
                 Welcome to github action workflows for ${{ env.project-id}} and his age: ${{ env.project-version }}
                 $(date +'%Y-%m-%d')
