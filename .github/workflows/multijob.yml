@@ -30,7 +30,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                   name: sample-artifact
-                  path: multi/text-${{ env.current_date }}.txt 
+                  path: multi/text-*.txt
 
     test-job:
         needs: build-job
