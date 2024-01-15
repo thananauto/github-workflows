@@ -6,7 +6,7 @@ on:
 permissions: 
     contents: write
 env:
-    current_date: $(date)
+    current_date: $(date +'%Y-%m-%d')
 
 jobs:
     add_comment:
