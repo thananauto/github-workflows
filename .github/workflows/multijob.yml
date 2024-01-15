@@ -24,21 +24,35 @@ jobs:
                 Welcome to github action workflows for ${{ env.project-id}} and his age: ${{ env.project-version }}
                 $(date +'%Y-%m-%d')
                 EOF
-
-            - name: add file and commit back to git hub
-              uses: EndBug/add-and-commit@v9
+            - name: upload new files
+              uses: actions/upload-artifact@v4
               with:
-                  message: Show GitHub logo
-                  committer_name: GitHub Actions
-                  committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+                  name: sample-artifact
+                  path: multi/text-${{ env.current_date }}.txt 
 
     test-job:
+        needs: build-job
         runs-on: ubuntu-latest
         steps:
-            - name: test jobs
-              run: echo "Test jobs"
+            - name: checkout code
+              uses: actions/checkout@v4
+
+            - name: setup artifact path
+              run: |
+                mkdir -p ${{ github.workspace }}/artifact
+                echo "artifact_path=${{ github.workspace }}/artifact" >> $GITHUB_ENV
+               
+            - uses: actions/download-artifact@v4
+              with:
+                name: sample-artifact
+                path: ${{ env.artifact_path }}
+
+            - name: Display structure of downloaded files
+              run: ls -R ${{ env.artifact_path }}
+            
 
     deploy-job:
+        needs: test-job
         runs-on: ubuntu-latest
         steps:
             - name: deploy jobs
