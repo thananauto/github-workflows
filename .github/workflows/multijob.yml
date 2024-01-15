@@ -1,0 +1,44 @@
+name: Multi job
+on: 
+    - push
+    - pull_request
+permissions: 
+    contents:  write
+
+env:
+    project-id: 1342
+    project-version: 1.0
+    current_date: $(date +'%Y-%m-%d')
+
+jobs:
+    build-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v4
+            
+            - name: Add the new file
+              run: | 
+                cat > multi/text-${{ env.current_date }}.txt << EOF
+                Welcome to github action workflows for ${{ env.project-id}} and his age: ${{ env.project-version }}
+                $(date +'%Y-%m-%d')
+                EOF
+
+            - name: add file and commit back to git hub
+              uses: EndBug/add-and-commit@v9
+              with:
+                  message: Show GitHub logo
+                  committer_name: GitHub Actions
+                  committer_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+    test-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: test jobs
+              run: echo "Test jobs"
+
+    deploy-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: deploy jobs
+              run: echo "Test jobs"
