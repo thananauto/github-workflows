@@ -20,6 +20,7 @@ jobs:
               run: | 
                 mkdir -p multi
                 cat > multi/text-${{ env.current_date }}.txt << EOF
+                ${{ github.event.pull_request.assignee == 'kumar'}}
                 Welcome to github action workflows for 
                 $(date +'%Y-%m-%d')
                 EOF

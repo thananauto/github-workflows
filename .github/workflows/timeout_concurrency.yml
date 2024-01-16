@@ -1,0 +1,46 @@
+name: simple to workflow to demstrate the timeout and concurrency
+on: 
+    workflow_dispatch: 
+        inputs:
+            name: 
+                default: '1'
+                description: Enter the minutes
+                type: string
+                required: true
+            
+            environment:
+                type: choice
+                options:
+                    - DEV
+                    - QA
+                    - STAGE
+                description: Choose the environment
+            
+
+jobs:
+    timeout_sample:
+        timeout-minutes: 1
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout the code
+              uses: actions/checkout@v4
+
+            - name: write a file
+              run: |
+                    cat >> file.txt <<EOF
+                    Welcome to check the timeout job
+                     ${{ inputs.name }} --> ${{ inputs.environment }}
+                    EOF
+                    cat file.txt
+    
+    concurrency_sample:
+        runs-on: ubuntu-22.04
+        concurrency: 
+            cancel-in-progress: true
+            group: my-sample
+        steps:
+            - name: checkout the code
+              run: |
+                  sleep 100s
+        
+
