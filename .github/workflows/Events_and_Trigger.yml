@@ -3,12 +3,11 @@ on:
     workflow_dispatch: 
     push:
     pull_request: 
-        branches: 
-            - 'main'
         types: 
             - 'assigned'
             - 'opened'
             - 'closed'
+            - 'edited'
             
 
         
@@ -25,7 +24,7 @@ jobs:
               run: docker pull hello-world
             
             - name: run hello world
-              run: docker run hello-world echo 'Welcome'
+              run: docker run hello-world /bin/sh echo 'Welcome'
 
             - name: create a file
               if: ${{ job.status }}
@@ -38,7 +37,7 @@ jobs:
               uses: mshick/add-pr-comment@v2
               env:
                 content: $(cat status.txt)
-              if: (contains(fromJSON('["pull_request"]'), github.event_name))
+              if: (contains(fromJSON('["pull_request", "push"]'), github.event_name))
               with:
                         message: |
                             **Howdie!** The job has the status ${{ env.content }}
