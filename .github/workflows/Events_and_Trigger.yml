@@ -1,0 +1,30 @@
+name: Test event and triggers
+on:
+    workflow_dispatch: 
+    push: 
+        branches: 
+            - main
+        branches-ignore: 
+            - feature/*
+    pull_request: 
+        branches: 
+            - main
+        types: 
+            - assigned
+            - opened
+            
+
+        
+jobs:
+    events_trigger:
+        if: ${{ contains(github.ref,'main')}}
+        runs-on: ubuntu-18.04
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v3
+
+            - name: check hello world
+              run: docker pull hello-world
+            
+            - name: run hello world
+              run: docker run hello-world Welcome
