@@ -1,0 +1,47 @@
+name: Test event and triggers
+on:
+    workflow_dispatch: 
+    push: 
+        branches: 
+            - 'main'
+            - '!feature/*'
+      
+    pull_request: 
+        branches: 
+            - 'main'
+        types: 
+            - 'assigned'
+            - 'opened'
+            
+
+        
+jobs:
+    events_trigger:
+        if: ${{ contains(github.ref,'main')}}
+        
+        runs-on: ubuntu-18.04
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v3
+
+            - name: check hello world
+              run: docker pull hello-world
+            
+            - name: run hello world
+              run: docker run hello-world Welcome
+
+            - name: create a file
+              if: ${{ job.status }}
+              run: |
+                 cat >> status.txt <<EOF
+                    ${{ github.repository }} -- ${{ github.event }} ---> ${{ job.status }}
+                    EOF
+            - name: add comment
+              uses: mshick/add-pr-comment@v2
+              if: (contains(fromJSON('["pull_request"]'), github.event_name))
+              with:
+                        message: |
+                            **Howdie!** The job has the status ${{ job.status }}
+
+    
+    
