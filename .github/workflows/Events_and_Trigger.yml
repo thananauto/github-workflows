@@ -2,8 +2,6 @@ name: Test event and triggers
 on:
     workflow_dispatch: 
     push:
-      branches-ignore: 
-        - main
     pull_request: 
        
             
