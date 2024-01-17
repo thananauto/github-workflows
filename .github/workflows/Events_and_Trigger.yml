@@ -1,10 +1,7 @@
 name: Test event and triggers
 on:
     workflow_dispatch: 
-    push: 
-        branches: 
-           - **
-      
+    push:
     pull_request: 
         branches: 
             - 'main'
