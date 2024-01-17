@@ -47,3 +47,7 @@ jobs:
         env:
             VARS_CONTEXT: ${{ toJson(vars) }}
         run: echo "$VARS_CONTEXT"
+      - name: Dump env context
+        env:
+            ENV_CONTEXT: ${{ toJson(env) }}
+        run: echo "$ENV_CONTEXT"
