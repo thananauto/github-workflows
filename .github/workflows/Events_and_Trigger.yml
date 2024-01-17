@@ -1,17 +1,14 @@
 name: Test event and triggers
 on:
     workflow_dispatch: 
-    push: 
-        branches: 
-            - 'main'
-            - '!feature/*'
-      
+    push:
     pull_request: 
         branches: 
             - 'main'
         types: 
             - 'assigned'
             - 'opened'
+            - 'closed'
             
 
         
@@ -28,7 +25,7 @@ jobs:
               run: docker pull hello-world
             
             - name: run hello world
-              run: docker run hello-world Welcome
+              run: docker run hello-world echo 'Welcome'
 
             - name: create a file
               if: ${{ job.status }}
@@ -36,12 +33,15 @@ jobs:
                  cat >> status.txt <<EOF
                     ${{ github.repository }} -- ${{ github.event }} ---> ${{ job.status }}
                     EOF
+
             - name: add comment
               uses: mshick/add-pr-comment@v2
+              env:
+                content: $(cat status.txt)
               if: (contains(fromJSON('["pull_request"]'), github.event_name))
               with:
                         message: |
-                            **Howdie!** The job has the status ${{ job.status }}
+                            **Howdie!** The job has the status ${{ env.content }}
 
     
     
