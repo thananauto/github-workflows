@@ -19,7 +19,7 @@ jobs:
     events_trigger:
         if: ${{ contains(github.ref,'main')}}
         
-        runs-on: ubuntu-18.04
+        runs-on: ubuntu-latest
         steps:
             - name: checkout code
               uses: actions/checkout@v3
